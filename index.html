@@ -45,10 +45,10 @@
                   // "Access-Control-Allow-Methods": "POST, OPTIONS", // Allow methods
                   // "Access-Control-Allow-Headers": "Content-Type", // Allow headers
                 },
-                body: JSON.stringify({
+                body: {
                   isBase64Encoded: true,
                   body: base64String,
-                }),
+                },
               });
 
               if (!response.ok) {
