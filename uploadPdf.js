@@ -1,3 +1,5 @@
+import { formatFileSize } from './util/fileUtil.js';
+
 const dragArea = document.querySelector('.drag-area');
 const dragText = document.querySelector('.header');
 
@@ -12,6 +14,40 @@ browseButton.onclick = () => {
 fileInput.addEventListener('change', (fileChangeEvent) => {
 	console.log('file input changed');
 	let files = fileChangeEvent.target.files;
+	if (files) {
+		let attachedDocs = document.getElementById('files-attached-container');
+		attachedDocs.style.display = 'flex';
+
+		for (let i = 0; i < files.length; i++) {
+			// add files[i] details
+			let fileItem = document.createElement('div');
+			fileItem.classList.add('attached-file-details');
+			let fileName = document.createElement('p');
+			fileName.textContent = files[i]['name'];
+			let fileSize = document.createElement('p');
+			fileSize.textContent = formatFileSize(files[i]['size']);
+			fileItem.appendChild(fileName);
+			fileItem.appendChild(fileSize);
+
+			// add remove files[i] icon to remove attached files[i]
+			let removeFileIcon = document.createElement('img');
+			removeFileIcon.src = './images/remove.png';
+			fileItem.appendChild(removeFileIcon);
+			removeFileIcon.onclick = (event) => {
+				let dataTransfer = new DataTransfer();
+
+				event.target.parentNode.remove(); // remove from dom
+				console.log(fileInput.files);
+				let newArray = Array.from(fileInput.files).splice(i, 1);
+				dataTransfer.items.remove(i);
+				fileInput.files = dataTransfer.files;
+			};
+
+			fileItem.id = `attached-file-${i}`;
+			// add files[i] to list of files
+			attachedDocs.appendChild(fileItem);
+		}
+	}
 	dragArea.classList.add('active');
 });
 
