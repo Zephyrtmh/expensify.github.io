@@ -1,71 +1,29 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <link rel="stylesheet" href="index.css" />
-    <title>Upload PDF to Lambda</title>
-  </head>
-  <body>
-    <div>
-      <h1>Upload PDF to Lambda</h1>
-      <form id="uploadForm">
-        <input type="file" id="pdfFile" accept="application/pdf" />
-        <button type="submit">Upload PDF</button>
-      </form>
-    </div>
+	<head>
+		<link rel="stylesheet" href="index.css" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+			rel="stylesheet"
+		/>
+		<title>Upload PDF to Lambda</title>
+	</head>
+	<body>
+		<div id="upload-file-container">
+			<h3 class="header">Upload File</h3>
+			<div class="drag-area">
+        <img class="upload-file-icon" src="./images/file-upload-icon.png"></img>
+				<span>Drag & drop or </span>
+				<span>
+					<span class="browse-button">browse</span>
+					<input type="file" id="pdf-file" accept="application/pdf" hidden />
+				</span>
+			</div>
+			<button type="submit" class="upload-button">Upload</button>
+		</div>
 
-    <script>
-      document
-        .getElementById("uploadForm")
-        .addEventListener("submit", async function (event) {
-          event.preventDefault();
-
-          const fileInput = document.getElementById("pdfFile");
-          const file = fileInput.files[0];
-
-          if (!file) {
-            alert("Please select a PDF file to upload.");
-            return;
-          }
-
-          const url =
-            "https://uodmlozfupt7jtxc45cty5j4ka0rmngk.lambda-url.ap-southeast-1.on.aws/"; // Replace with your API Gateway endpoint URL
-
-          // Read the file as a data URL (Base64)
-          const reader = new FileReader();
-          reader.onloadend = async function () {
-            const base64String = reader.result.split(",")[1]; // Remove the data URL prefix
-            console.log(base64String);
-            try {
-              const response = await fetch(url, {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                  Accept: "application/json",
-                  "Access-Control-Allow-Origin": "*", // Allow all origins
-                  "Access-Control-Allow-Methods": "POST, OPTIONS", // Allow methods
-                  "Access-Control-Allow-Headers": "Content-Type", // Allow headers
-                },
-                body: {
-                  isBase64Encoded: true,
-                  body: base64String,
-                },
-              });
-
-              if (!response.ok) {
-                throw new Error(
-                  "Network response was not ok " + response.statusText
-                );
-              }
-
-              const responseData = await response.json();
-              console.log("Response from Lambda:", responseData);
-            } catch (error) {
-              console.error("Error uploading PDF:", error);
-            }
-          };
-
-          await reader.readAsDataURL(file); // Read the file as Base64
-        });
-    </script>
-  </body>
+		<script src="./uploadPdf.js"></script>
+	</body>
 </html>
