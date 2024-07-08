@@ -25,6 +25,7 @@ dragArea.addEventListener('drop', (event) => {
 	event.preventDefault();
 	dragArea.classList.remove('active');
 	let filesDraggedIn = event.dataTransfer.files;
+	fileInput.files = filesDraggedIn;
 	addFileToFileInput(filesDraggedIn);
 });
 
@@ -108,6 +109,7 @@ const addFileToFileInput = (files) => {
 
 			// add onclick function for remove file icon
 			removeFileIcon.onclick = (event) => {
+				console.log('this was ran');
 				let dataTransfer = new DataTransfer();
 				let parent = event.target.parentNode;
 				console.log(event.target.parentNode);
