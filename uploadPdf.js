@@ -11,44 +11,27 @@ browseButton.onclick = () => {
 	fileInput.click();
 };
 
+dragArea.addEventListener('dragover', (event) => {
+	event.preventDefault();
+	dragArea.classList.add('active');
+});
+
+dragArea.addEventListener('dragleave', (event) => {
+	event.preventDefault();
+	dragArea.classList.remove('active');
+});
+
+dragArea.addEventListener('drop', (event) => {
+	event.preventDefault();
+	dragArea.classList.remove('active');
+	let filesDraggedIn = event.dataTransfer.files;
+	addFileToFileInput(filesDraggedIn);
+});
+
 fileInput.addEventListener('change', (fileChangeEvent) => {
 	console.log('file input changed');
 	let files = fileChangeEvent.target.files;
-	if (files) {
-		let attachedDocs = document.getElementById('files-attached-container');
-		attachedDocs.style.display = 'flex';
-
-		for (let i = 0; i < files.length; i++) {
-			// add files[i] details
-			let fileItem = document.createElement('div');
-			fileItem.classList.add('attached-file-details');
-			let fileName = document.createElement('p');
-			fileName.textContent = files[i]['name'];
-			let fileSize = document.createElement('p');
-			fileSize.textContent = formatFileSize(files[i]['size']);
-			fileItem.appendChild(fileName);
-			fileItem.appendChild(fileSize);
-
-			// add remove files[i] icon to remove attached files[i]
-			let removeFileIcon = document.createElement('img');
-			removeFileIcon.src = './images/remove.png';
-			fileItem.appendChild(removeFileIcon);
-			removeFileIcon.onclick = (event) => {
-				let dataTransfer = new DataTransfer();
-
-				event.target.parentNode.remove(); // remove from dom
-				console.log(fileInput.files);
-				let newArray = Array.from(fileInput.files).splice(i, 1);
-				dataTransfer.items.remove(i);
-				fileInput.files = dataTransfer.files;
-			};
-
-			fileItem.id = `attached-file-${i}`;
-			// add files[i] to list of files
-			attachedDocs.appendChild(fileItem);
-		}
-	}
-	dragArea.classList.add('active');
+	addFileToFileInput(files);
 });
 
 // add listener for upload button click
@@ -102,3 +85,50 @@ document
 
 		await reader.readAsDataURL(file); // Read the file as Base64
 	});
+
+const addFileToFileInput = (files) => {
+	if (files) {
+		let attachedDocs = document.getElementById('files-attached-container');
+		attachedDocs.style.display = 'flex';
+
+		for (let i = 0; i < files.length; i++) {
+			// add files[i] details
+			let fileItem = document.createElement('div');
+			fileItem.classList.add('attached-file-details');
+			let fileName = document.createElement('p');
+			fileName.textContent = files[i]['name'];
+			let fileSize = document.createElement('p');
+			fileSize.textContent = formatFileSize(files[i]['size']);
+			fileItem.appendChild(fileName);
+			fileItem.appendChild(fileSize);
+
+			// add remove files[i] icon to remove attached files[i]
+			let removeFileIcon = document.createElement('img');
+			removeFileIcon.src = './images/remove_red.png';
+
+			// add onclick function for remove file icon
+			removeFileIcon.onclick = (event) => {
+				let dataTransfer = new DataTransfer();
+				let parent = event.target.parentNode;
+				console.log(event.target.parentNode);
+				event.target.parentNode.remove(); // remove from dom
+				console.log(fileInput.files);
+				let fileArray = Array.from(fileInput.files);
+
+				fileArray.forEach((file) => {
+					console.log(parent.firstChild.textContent);
+					if (file.name !== parent.firstChild.textContent) {
+						dataTransfer.items.add(file);
+					}
+				});
+				fileInput.files = dataTransfer.files;
+				if (fileInput.files.length === 0) {
+					attachedDocs.style.display = 'none';
+				}
+			};
+			fileItem.appendChild(removeFileIcon);
+			attachedDocs.appendChild(fileItem);
+		}
+		console.log(attachedDocs);
+	}
+};

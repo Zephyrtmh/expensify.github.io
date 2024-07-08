@@ -19,13 +19,18 @@
       </h2>
     </header>
 		<div id="upload-file-container">
-			<h3 class="header">Upload File</h3>
+      <div id="title-container">
+        <p class="title-text">Convert e-statement for </p>
+        <select id="estatement-formats"></select>
+        <script src="./util/handleEstatementFormat.js"></script>
+      </div>
+			
 			<div class="drag-area">
         <img class="upload-file-icon" src="./images/file-upload-icon.png"></img>
 				<span>Drag & drop or </span>
 				<span>
 					<span class="browse-button">browse</span>
-					<input type="file" id="pdf-file" accept="application/pdf" hidden />
+					<input type="file" multiple id="pdf-file" hidden />
 				</span>
 			</div>
       <div id="files-attached-container">

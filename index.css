@@ -30,10 +30,17 @@ header {
 	box-shadow: rgba(149, 157, 165, 0.5) 0px 8px 24px;
 }
 
-.header {
+#title-container {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
+	align-items: center;
+}
+
+.title-text {
+	margin: 0px;
+	font-weight: 500;
+	margin-right: 10px;
 }
 
 .upload-file-icon {
@@ -43,7 +50,7 @@ header {
 }
 
 .drag-area {
-	height: 400px;
+	height: 200px;
 	width: 100%;
 	border: 3px dashed #e0eafc;
 	display: flex;
@@ -54,7 +61,7 @@ header {
 	margin-bottom: 20px;
 }
 
-.drag-area .active {
+.drag-area.active {
 	background-color: aliceblue;
 }
 
@@ -74,9 +81,13 @@ header {
 
 #files-attached-container {
 	width: 100%;
+	max-height: 250px;
+	overflow-y: auto;
 	margin-bottom: 10px;
 	padding: 10px;
 	display: none;
+	flex-direction: column;
+	justify-content: space-between;
 }
 
 .attached-file-details {
@@ -85,8 +96,8 @@ header {
 	align-items: center;
 	border: 1px solid black;
 	border-radius: 5px;
-	width: 100%;
 	padding: 4px 10px 4px 10px;
+	margin: 5px 0px 5px 0px;
 }
 
 .attached-file-details img {
