@@ -62,10 +62,6 @@ document.getElementById('upload-button').onclick = function (event) {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
-					Accept: 'application/json',
-					'Access-Control-Allow-Origin': '*', // Allow all origins
-					'Access-Control-Allow-Methods': 'POST, OPTIONS', // Allow methods
-					'Access-Control-Allow-Headers': 'Content-Type', // Allow headers
 				},
 				body: {
 					isBase64Encoded: true,
