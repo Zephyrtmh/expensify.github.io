@@ -63,10 +63,10 @@ document.getElementById('upload-button').onclick = function (event) {
 				headers: {
 					'Content-Type': 'application/json',
 				},
-				body: {
+				body: JSON.stringify({
 					isBase64Encoded: true,
-					body: base64String,
-				},
+					file: base64String,
+				}),
 			});
 
 			if (!response.ok) {
