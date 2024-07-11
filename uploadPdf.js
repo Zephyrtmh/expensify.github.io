@@ -71,10 +71,27 @@ document.getElementById('upload-button').onclick = function (event) {
 
 			if (!response.ok) {
 				throw new Error('Network response was not ok ' + response.statusText);
+			} else {
+				console.log(response.headers);
+				// const contentDisposition = response.headers.get('Content-Disposition');
+				// const filename = contentDisposition
+				// 	.split('filename=')[1]
+				// 	.replace(/"/g, '');
+
+				const blob = await response.blob();
+				const url = window.URL.createObjectURL(blob);
+				const a = document.createElement('a');
+				a.style.display = 'none';
+				a.href = url;
+				a.download = 'data.csv'; // Replace with the desired file name and extension
+				document.body.appendChild(a);
+				a.click();
+				window.URL.revokeObjectURL(url);
+				document.body.removeChild(a);
 			}
 
-			const responseData = await response.json();
-			console.log('Response from Lambda:', responseData);
+			// const responseData = await response.json();
+			// console.log('Response from Lambda:', responseData);
 		} catch (error) {
 			console.error('Error uploading PDF:', error);
 		}
