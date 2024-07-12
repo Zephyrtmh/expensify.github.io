@@ -7,7 +7,6 @@ let browseButton = dragArea.querySelector('.browse-button');
 let fileInput = document.getElementById('pdf-file');
 
 browseButton.onclick = () => {
-	console.log('clicked browse button');
 	fileInput.click();
 };
 
@@ -30,16 +29,13 @@ dragArea.addEventListener('drop', (event) => {
 });
 
 fileInput.addEventListener('change', (fileChangeEvent) => {
-	console.log('file input changed');
 	let files = fileChangeEvent.target.files;
 	addFileToFileInput(files);
 });
 
 // add listener for upload button click
-console.log(document.getElementById('upload-button'));
 document.getElementById('upload-button').onclick = function (event) {
 	event.preventDefault();
-	console.log('submit button clicked');
 
 	const fileInput = document.getElementById('pdf-file');
 	const file = fileInput.files[0];
@@ -56,7 +52,6 @@ document.getElementById('upload-button').onclick = function (event) {
 	const reader = new FileReader();
 	reader.onloadend = async function () {
 		const base64String = reader.result.split(',')[1]; // Remove the data URL prefix
-		console.log(base64String);
 		try {
 			const response = await fetch(url, {
 				method: 'POST',
@@ -72,12 +67,6 @@ document.getElementById('upload-button').onclick = function (event) {
 			if (!response.ok) {
 				throw new Error('Network response was not ok ' + response.statusText);
 			} else {
-				console.log(response.headers);
-				// const contentDisposition = response.headers.get('Content-Disposition');
-				// const filename = contentDisposition
-				// 	.split('filename=')[1]
-				// 	.replace(/"/g, '');
-
 				const blob = await response.blob();
 				const url = window.URL.createObjectURL(blob);
 				const a = document.createElement('a');
@@ -89,9 +78,6 @@ document.getElementById('upload-button').onclick = function (event) {
 				window.URL.revokeObjectURL(url);
 				document.body.removeChild(a);
 			}
-
-			// const responseData = await response.json();
-			// console.log('Response from Lambda:', responseData);
 		} catch (error) {
 			console.error('Error uploading PDF:', error);
 		}
@@ -106,7 +92,6 @@ const addFileToFileInput = (files) => {
 		attachedDocs.style.display = 'flex';
 
 		for (let i = 0; i < files.length; i++) {
-			// add files[i] details
 			let fileItem = document.createElement('div');
 			fileItem.classList.add('attached-file-details');
 			let fileName = document.createElement('p');
@@ -122,16 +107,12 @@ const addFileToFileInput = (files) => {
 
 			// add onclick function for remove file icon
 			removeFileIcon.onclick = (event) => {
-				console.log('this was ran');
 				let dataTransfer = new DataTransfer();
 				let parent = event.target.parentNode;
-				console.log(event.target.parentNode);
 				event.target.parentNode.remove(); // remove from dom
-				console.log(fileInput.files);
 				let fileArray = Array.from(fileInput.files);
 
 				fileArray.forEach((file) => {
-					console.log(parent.firstChild.textContent);
 					if (file.name !== parent.firstChild.textContent) {
 						dataTransfer.items.add(file);
 					}
@@ -144,6 +125,5 @@ const addFileToFileInput = (files) => {
 			fileItem.appendChild(removeFileIcon);
 			attachedDocs.appendChild(fileItem);
 		}
-		console.log(attachedDocs);
 	}
 };
