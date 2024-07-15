@@ -5,6 +5,7 @@ const dragText = document.querySelector('.header');
 
 let browseButton = dragArea.querySelector('.browse-button');
 let fileInput = document.getElementById('pdf-file');
+let estatementFormatInput = document.getElementById('estatement-formats');
 
 browseButton.onclick = () => {
 	fileInput.click();
@@ -52,6 +53,8 @@ document.getElementById('upload-button').onclick = function (event) {
 	const reader = new FileReader();
 	reader.onloadend = async function () {
 		const base64String = reader.result.split(',')[1]; // Remove the data URL prefix
+
+		let estatementFormat = estatementFormatInput.value;
 		try {
 			const response = await fetch(url, {
 				method: 'POST',
@@ -59,7 +62,7 @@ document.getElementById('upload-button').onclick = function (event) {
 					'Content-Type': 'application/json',
 				},
 				body: JSON.stringify({
-					isBase64Encoded: true,
+					isBase64Encoded: estatementFormat,
 					file: base64String,
 				}),
 			});
