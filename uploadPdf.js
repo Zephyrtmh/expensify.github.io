@@ -55,6 +55,13 @@ document.getElementById('upload-button').onclick = function (event) {
 		const base64String = reader.result.split(',')[1]; // Remove the data URL prefix
 
 		let estatementFormat = estatementFormatInput.value;
+		type = 'citibank';
+		if (estatementFormat === 'UOB estatement') {
+			type = 'uob';
+		} else if (estatementFormat === 'CITI Bank estatement') {
+			type = 'citibank';
+		}
+
 		try {
 			const response = await fetch(url, {
 				method: 'POST',
@@ -62,7 +69,7 @@ document.getElementById('upload-button').onclick = function (event) {
 					'Content-Type': 'application/json',
 				},
 				body: JSON.stringify({
-					isBase64Encoded: estatementFormat,
+					isBase64Encoded: type,
 					file: base64String,
 				}),
 			});
