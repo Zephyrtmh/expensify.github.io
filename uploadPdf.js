@@ -69,8 +69,8 @@ document.getElementById('upload-button').onclick = function (event) {
 					'Content-Type': 'application/json',
 				},
 				body: JSON.stringify({
-					isBase64Encoded: type,
 					file: base64String,
+					type: type,
 				}),
 			});
 
