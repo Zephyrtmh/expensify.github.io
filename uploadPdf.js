@@ -62,6 +62,8 @@ document.getElementById('upload-button').onclick = function (event) {
 			type = 'citibank';
 		}
 
+		console.log(type);
+
 		try {
 			const response = await fetch(url, {
 				method: 'POST',
