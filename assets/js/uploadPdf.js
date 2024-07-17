@@ -116,7 +116,7 @@ const addFileToFileInput = (files) => {
 
 			// add remove files[i] icon to remove attached files[i]
 			let removeFileIcon = document.createElement('img');
-			removeFileIcon.src = '../assets/images/remove_red.png';
+			removeFileIcon.src = './assets/images/remove_red.png';
 
 			// add onclick function for remove file icon
 			removeFileIcon.onclick = (event) => {
