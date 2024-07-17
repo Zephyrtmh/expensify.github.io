@@ -62,9 +62,6 @@ document.getElementById('upload-button').onclick = function (event) {
 			type = 'citibank';
 		}
 
-		console.log(type);
-		console.log(base64String);
-
 		try {
 			const response = await fetch(url, {
 				method: 'POST',
@@ -85,7 +82,7 @@ document.getElementById('upload-button').onclick = function (event) {
 				const a = document.createElement('a');
 				a.style.display = 'none';
 				a.href = url;
-				a.download = 'data.csv'; // Replace with the desired file name and extension
+				a.download = 'estatement.csv'; // Replace with the desired file name and extension
 				document.body.appendChild(a);
 				a.click();
 				window.URL.revokeObjectURL(url);
