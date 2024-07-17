@@ -37,7 +37,7 @@ fileInput.addEventListener('change', (fileChangeEvent) => {
 // add listener for upload button click
 document.getElementById('upload-button').onclick = function (event) {
 	event.preventDefault();
-
+	toggleLoading();
 	const fileInput = document.getElementById('pdf-file');
 	const file = fileInput.files[0];
 
@@ -74,6 +74,8 @@ document.getElementById('upload-button').onclick = function (event) {
 				}),
 			});
 
+			toggleLoading();
+
 			if (!response.ok) {
 				throw new Error('Network response was not ok ' + response.statusText);
 			} else {
@@ -89,6 +91,7 @@ document.getElementById('upload-button').onclick = function (event) {
 				document.body.removeChild(a);
 			}
 		} catch (error) {
+			toggleLoading();
 			console.error('Error uploading PDF:', error);
 		}
 	};
@@ -138,4 +141,9 @@ const addFileToFileInput = (files) => {
 	}
 };
 
-const processFileLoader = () => {};
+const toggleLoading = () => {
+	const loadingIcon = document.getElementById('dot-floating');
+	const uploadButtonText = document.getElementById('upload-button-text');
+	loadingIcon.classList.toggle('hidden');
+	uploadButtonText.classList.toggle('hidden');
+};
