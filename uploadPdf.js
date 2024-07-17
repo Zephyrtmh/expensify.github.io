@@ -63,6 +63,7 @@ document.getElementById('upload-button').onclick = function (event) {
 		}
 
 		console.log(type);
+		console.log(base64String);
 
 		try {
 			const response = await fetch(url, {
