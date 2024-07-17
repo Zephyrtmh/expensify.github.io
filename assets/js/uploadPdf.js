@@ -1,4 +1,4 @@
-import { formatFileSize } from './util/fileUtil.js';
+import { formatFileSize } from '../../util/fileUtil.js';
 
 const dragArea = document.querySelector('.drag-area');
 const dragText = document.querySelector('.header');
@@ -113,7 +113,7 @@ const addFileToFileInput = (files) => {
 
 			// add remove files[i] icon to remove attached files[i]
 			let removeFileIcon = document.createElement('img');
-			removeFileIcon.src = './images/remove_red.png';
+			removeFileIcon.src = '../assets/images/remove_red.png';
 
 			// add onclick function for remove file icon
 			removeFileIcon.onclick = (event) => {
@@ -137,3 +137,5 @@ const addFileToFileInput = (files) => {
 		}
 	}
 };
+
+const processFileLoader = () => {};
